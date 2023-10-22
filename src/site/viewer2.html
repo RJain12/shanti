@@ -65,36 +65,11 @@
         <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
 
-    <!-- Emoji button container -->
-    <div id="emojiBtnContainer">
-        <button onclick="changeImage('IMG_9545.webp')">🦄</button>
-        <button onclick="changeImage('IMG_9540.webp')">🧚</button>
-        <button onclick="changeImage('IMG_9538.webp')">🧜</button>
-        <button onclick="changeImage('dingboard.png')">👶</button>
-        <button onclick="changeImage('cats.png')">🐱</button>
-        <button onclick="changeImage('halloween.png')">🎃</button>
-        <button onclick="changeImage('IMG_9561.webp')">☀️</button>
-        <button onclick="changeImage('IMG_9575.jpg')">🕒</button>
-        <button onclick="changeImage('IMG_9576.jpg')">🎈</button>
-        <button onclick="changeImage('IMG_9577.jpg')">🐪</button>
-        <button onclick="changeImage('IMG_9578.jpg')">🍭</button>
-      <button onclick="changeImage('IMG_9584.webp')">🏯</button>
-      <button onclick="changeImage('IMG_9603.webp')">👽</button>
-      <button onclick="changeImage('IMG_9590.webp')">🤖</button>
-      <button onclick="changeImage('IMG_9597.webp')">⛩️</button>
-      <button onclick="changeImage('IMG_9596.webp')">🎶</button>
-    </div>
-
     <script>
-        // const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        // const recognition = new SpeechRecognition();
         let speechRecognition = new webkitSpeechRecognition();
 
         speechRecognition.continuous = true;
-        // speechRecognition.interimResults = true;
         speechRecognition.lang = "en-US";
-        
-        console.log(speechRecognition.lang);
         speechRecognition.start()
         
         speechRecognition.onerror = function(event) {
@@ -109,6 +84,53 @@
         speechRecognition.onend = () => {
           speechRecognition.start();
         };
+    </script>
+
+
+    <script type="module">
+
+        // const request = new Request("https://api.replicate.com/v1/predictions", {
+        //     auth: "r8_c9Zyab1TtF8l60uN04WymVaW79LiKgh3MXx0L",
+        //     mode: 'no-cors',
+        //     method: "POST",
+        //     body: {
+        //       "version": "5c7d5dc6dd8bf75c1acaa8565735e7986bc5b66206b55cca93cb72c9bf15ccaa",
+        //       "input": {
+        //         "text": "Alice"
+        //       }
+        //   },
+        // });
+
+        // fetch(request)
+        //   .then((response) => {
+        //     console.log(response)
+        //   });
+
+        // const Replicate = require("replicate");
+
+        // import fetch from 'node-fetch'
+        const fretch = require("node-fetch")
+
+        console.log("here");
+        const response = await fetch("https://api.replicate.com/v1/predictions", {
+            method: "POST",
+            headers: {
+              Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              // Pinned to a specific version of Stable Diffusion
+              // See https://replicate.com/stability-ai/sdxl
+              version: "2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2",
+
+              // This is the text prompt that will be submitted by a form on the frontend
+              input: { prompt: req.body.prompt },
+            }),
+          });
+
+        console.log(response);
+
+
     </script>
 
     <script>

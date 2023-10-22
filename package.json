@@ -9,7 +9,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "replicate": "^0.20.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
