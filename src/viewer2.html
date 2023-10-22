@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360-degree Image Viewer</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <style>
+        /* Ensuring the A-Frame scene takes the full viewport */
+        html, body, a-scene {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Styling the button container */
+        #emojiBtnContainer {
+            position: absolute;
+            bottom: 1%; /* small margin from the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        /* Styling individual buttons */
+        #emojiBtnContainer button {
+            background: rgba(255, 255, 255, 0.5); /* partial opacity */
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            margin: 0 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        /* Button hover effect */
+        #emojiBtnContainer button:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+      
+
+        /* Making the button container scrollable horizontally */
+        #emojiBtnContainer {
+            overflow-x: scroll;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+        }
+  
+        /* Hide scrollbar but still make it scrollable */
+        #emojiBtnContainer::-webkit-scrollbar {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <a-scene embedded vr-mode-ui="enabled: false">
+        <a-sky id="sky" src="src/assets/IMG_9545.webp"></a-sky>
+        <a-camera look-controls="reverseMouseDrag: true"></a-camera>
+    </a-scene>
+
+    <!-- Emoji button container -->
+    <div id="emojiBtnContainer">
+        <button onclick="changeImage('IMG_9545.webp')">🦄</button>
+        <button onclick="changeImage('IMG_9540.webp')">🧚</button>
+        <button onclick="changeImage('IMG_9538.webp')">🧜</button>
+        <button onclick="changeImage('dingboard.png')">👶</button>
+        <button onclick="changeImage('cats.png')">🐱</button>
+        <button onclick="changeImage('halloween.png')">🎃</button>
+        <button onclick="changeImage('IMG_9561.webp')">☀️</button>
+        <button onclick="changeImage('IMG_9575.jpg')">🕒</button>
+        <button onclick="changeImage('IMG_9576.jpg')">🎈</button>
+        <button onclick="changeImage('IMG_9577.jpg')">🐪</button>
+        <button onclick="changeImage('IMG_9578.jpg')">🍭</button>
+      <button onclick="changeImage('IMG_9584.webp')">🏯</button>
+      <button onclick="changeImage('IMG_9603.webp')">👽</button>
+      <button onclick="changeImage('IMG_9590.webp')">🤖</button>
+      <button onclick="changeImage('IMG_9597.webp')">⛩️</button>
+      <button onclick="changeImage('IMG_9596.webp')">🎶</button>
+    </div>
+
+    <script>
+        function changeImage(imageSrc) {
+            const skyElement = document.getElementById('sky');
+            skyElement.setAttribute('src', imageSrc);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('emojiBtnContainer');
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const threshold = 70; // The distance user must swipe to trigger a loop
+  
+            container.addEventListener('touchstart', function(event) {
+                touchStartX = event.touches[0].clientX;
+            });
+  
+            container.addEventListener('touchmove', function(event) {
+                touchEndX = event.touches[0].clientX;
+                handleSwipe();
+            });
+  
+            function handleSwipe() {
+                const buttons = container.querySelectorAll('button');
+                const swipeDistance = Math.abs(touchStartX - touchEndX);
+  
+                if (swipeDistance < threshold) {
+                    return; // Exit if swipe distance is less than threshold
+                }
+  
+                if (touchEndX < touchStartX) {
+                    // Swiped left
+                    const firstButton = buttons[0];
+                    container.removeChild(firstButton);
+                    container.appendChild(firstButton);
+                    touchStartX = touchEndX; // Reset the start position
+                } else if (touchEndX > touchStartX) {
+                    // Swiped right
+                    const lastButton = buttons[buttons.length - 1];
+                    container.removeChild(lastButton);
+                    container.insertBefore(lastButton, buttons[0]);
+                    touchStartX = touchEndX; // Reset the start position
+                }
+            }
+        });
+
+
+    </script>
+</body>
+</html>
