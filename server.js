@@ -34,7 +34,7 @@ app.get('/replicate', async (req, res) => {
     {
       input: {
         prompt: prompt,
-        height: 768,
+        height: 512,
         width: 1024
       }
     }
