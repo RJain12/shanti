@@ -12,6 +12,23 @@
   </style>
 </head>
 <body>
-  <iframe id="fullscreen-iframe" width="1600" height="700" title="someTitle" scrolling="no" src="http://renderstuff.com/tools/360-panorama-web-viewer-embed/?image=https://i.ibb.co/1sb0d64/download.jpg"></iframe>
+  <iframe id="fullscreen-iframe" width="1200" height="700" title="someTitle" scrolling="no" src="http://renderstuff.com/tools/360-panorama-web-viewer-embed/?image=https://i.ibb.co/1sb0d64/download.jpg"></iframe>
+
+  <script>
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = true;
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[event.results.length - 1][0].transcript;
+      console.log(transcript);
+    };
+
+    recognition.onend = () => {
+      recognition.start();
+    };
+  </script>
 </body>
 </html>
