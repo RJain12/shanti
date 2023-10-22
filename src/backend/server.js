@@ -1,14 +1,14 @@
-const express = require('express');
+onst express = require('express');
 const { exec } = require('child_process');
 
 const app = express();
-const port = 3000; // You can change the port as needed
+const port = 3000;
 
-app.get('/runMatlab', (req, res) => {
+app.get('*', (req, res) => {
   const prompt1 = req.query.prompt1;
   const prompt2 = req.query.prompt2;
 
-  // Replace this with your MATLAB command
+
   const matlabCommand = `matlab -r "gpt('${prompt1}', '${prompt2}')"`;
 
   exec(matlabCommand, (error, stdout, stderr) => {
