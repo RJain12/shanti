@@ -65,6 +65,25 @@
         <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js">
+    </script>
+
+    <script>
+
+        const trigger = async (text) => {
+            const token = "";
+            axios.get(`/gpt?prompt=You are a prompting script for image generation tools such as DALL-E, Stability AI, and Midjourney. You are an important part of a new innovation called Therapeutic VR. The patient is in a VR headset talking to an AI therapist. Based on what they are saying, you automatically generate happy, peaceful, realistic, mindful prompts for AI image generation tools so that they generate beautiful, therapeutic artwork. Here is an example of an excellent prompt: Equirectangular projection of THERAPEUTIC, RELAXING, CALMING beach, windy above with beautiful blue sky and clouds. Optimized for VR with equirectangular projection, ultra-wide angle lens, insanely detailed. \n\n The patient has just said the following transcript: "${text}". Return ONLY the string to feed into image generation tools in quotes. Do not respond to the patient.`).then(data=> {
+                if(data !== 0) {
+                    console.log(data.data)
+                    axios.get(`/replicate?prompt=${data}`).then(data=> {
+                        changeImage(data.data)
+                    })
+                }
+
+            })
+        }
+    </script>
+
     <script>
         let speechRecognition = new webkitSpeechRecognition();
 
@@ -79,20 +98,14 @@
         speechRecognition.onresult = function (event) {
           const transcript = event.results[event.results.length - 1][0].transcript;
           console.log(transcript);
+          if (transcript.length > 45) {
+            trigger(transcript)
+          }
         };
     
         speechRecognition.onend = () => {
           speechRecognition.start();
         };
-    </script>
-
-    <script src="https://unpkg.com/axios/dist/axios.min.js">
-    </script>
-
-    <script>
-        axios.get('/replicate?prompt=Equirectangular projection of a THERAPEUTIC, PEACEFUL, CALMING natural oasis, filled with serene landscapes, tranquil waters, and soothing surroundings. Optimized for VR with equirectangular projection, ultra-wide angle lens, designed to provide a sense of tranquility and relaxation.').then(data=> {
-            changeImage(data.data)
-        })
     </script>
 
     <script>

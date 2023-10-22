@@ -26,6 +26,51 @@ app.get('/viewer2', (req, res) => {
 
 const axios = require('axios');
 
+app.get('/gpt', async (req, res) => {
+  const prompt = req.query.prompt;
+
+  const openai_api_key = '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';
+
+  const url = 'https://api.openai.com/v1/chat/completions';
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${openai_api_key}`,
+  };
+
+  const data = {
+    model: 'gpt-3.5-turbo',
+    messages: [
+      {
+        role: 'system',
+        content: 'You are an automated script.',
+      },
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+  };
+
+  const config = {
+    headers,
+  };
+
+  try {
+    axios
+      .post(url, data, config)
+      .then((response) => {
+        res.send(response.data.choices[0].message.content)
+      })
+      .catch((error) => {
+        console.log(error.message); // Display the error message
+        res.send(0)
+      });
+  } catch (error) {
+    console.log(error.message);
+    res.send(0)
+  }
+});
+
 app.get('/replicate', async (req, res) => {
   const prompt = req.query.prompt;
   console.log(prompt)
