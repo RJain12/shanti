@@ -1,5 +1,8 @@
 <h1 align="center" id="title">Shanti</h1>
 
+<p align="center"><img src="src/assets/Slice 1.png" alt="project-image"></p>
+
+
 <p id="description">Shanti: Unite tech and tranquility. Experience AI-generated serenity in 360 VR. Speak and AI creates music images and soothing responses. Find peace in the digital world at Shanti. (HackHarvard2023 project)</p>
 
 <h2>🚀 Demo</h2>
