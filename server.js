@@ -27,15 +27,14 @@ app.get('/viewer2', (req, res) => {
 
 const axios = require('axios');
 
+
 app.get('/gpt', async (req, res) => {
   const prompt = req.query.prompt;
-
-  const openai_api_key = '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';
 
   const url = 'https://api.openai.com/v1/chat/completions';
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${openai_api_key}`,
+    'Authorization': `Bearer ${api_key}`,
   };
 
   const data = {
@@ -73,20 +72,37 @@ app.get('/gpt', async (req, res) => {
 });
 
 app.get('/replicate', async (req, res) => {
+  const OpenAI = require('openai');
+
+  const openai = new OpenAI({
+    apiKey: api_key,
+  })
   const prompt = req.query.prompt;
-  console.log(prompt)
-  const output = await replicate.run(
-    "stability-ai/stable-diffusion:f178fa7a1ae43a9a9af01b833b9d2ecf97b1bcb0acfd2dc5dd04895e042863f1",
-    {
-      input: {
-        prompt: prompt,
-        height: 512,
-        width: 1024
-      }
-    }
-  );
-  res.send(output[0]);
+
+  const response = await openai.images.generate({
+    prompt: prompt,
+    size: "1024x1024",
+  });
+  const image_url = response.data.data[0].url;
+
+  res.send(image_url);
 });
+
+// app.get('/replicate', async (req, res) => {
+//   const prompt = req.query.prompt;
+//   console.log(prompt)
+//   const output = await replicate.run(
+//     "stability-ai/stable-diffusion:f178fa7a1ae43a9a9af01b833b9d2ecf97b1bcb0acfd2dc5dd04895e042863f1",
+//     {
+//       input: {
+//         prompt: prompt,
+//         height: 512,
+//         width: 1024
+//       }
+//     }
+//   );
+//   res.send(output[0]);
+// });
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'site', 'index.html'));
