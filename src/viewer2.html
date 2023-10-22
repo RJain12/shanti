@@ -86,11 +86,39 @@
     </div>
 
     <script>
+        // const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        // const recognition = new SpeechRecognition();
+        let speechRecognition = new webkitSpeechRecognition();
+
+        speechRecognition.continuous = true;
+        speechRecognition.interimResults = true;
+        speechRecognition.lang = "en-US";
+        
+        console.log(speechRecognition.lang);
+        speechRecognition.start()
+        
+        speechRecognition.onerror = function(event) {
+            console.log(event.error);
+        };
+    
+        speechRecognition.onresult = function (event) {
+          console.log("enterred on result");
+          const transcript = event.results[event.results.length - 1][0].transcript;
+          console.log(transcript);
+        };
+    
+        speechRecognition.onend = () => {
+            console.log("enterred on end");
+          speechRecognition.start();
+        };
+    </script>
+
+    <script>
         function changeImage(imageSrc) {
             const skyElement = document.getElementById('sky');
             skyElement.setAttribute('src', "https://raw.githubusercontent.com/RJain12/shanti/main/src/assets/" + imageSrc);
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('emojiBtnContainer');
             let touchStartX = 0;
