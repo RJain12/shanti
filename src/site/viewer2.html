@@ -86,7 +86,12 @@
         };
     </script>
 
-    <script src="/src/site/stability.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js">
+    </script>
+
+    <script>
+        axios.get('/replicate?prompt=Equirectangular projection of a THERAPEUTIC, PEACEFUL, CALMING natural oasis, filled with serene landscapes, tranquil waters, and soothing surroundings. Optimized for VR with equirectangular projection, ultra-wide angle lens, designed to provide a sense of tranquility and relaxation.').then(data=>console.log(data))
+    </script>
 
     <script>
         function changeImage(imageSrc) {
