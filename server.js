@@ -25,8 +25,6 @@ app.get('/viewer2', (req, res) => {
 
 const axios = require('axios');
 
-const api_key = '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';
-
 app.get('/gpt', async (req, res) => {
   const prompt = req.query.prompt;
 
