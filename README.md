@@ -13,11 +13,10 @@ Please contact one of the HackHarvard Shanti team members on how to contribute t
 Technologies used in the project:
 
 *   GPT
-*   Whisper
-*   DALLE
-*   Ai.one
-*   GCloud
-*   Matlab
+*   DALL-E
+*   AiONE
+*   Google Cloud
+*   MATLAB
 *   React Native
 
 <h2>🛡️ License:</h2>

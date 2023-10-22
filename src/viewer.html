@@ -1,3 +1,5 @@
+<!-- DEPCREATED! CREATED TO HOST IFRAME, DECIDED TO USE VIEWER2 INSTEAD -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +14,14 @@
   </style>
 </head>
 <body>
-  <iframe id="fullscreen-iframe" width="1200" height="700" title="someTitle" scrolling="no" src="http://renderstuff.com/tools/360-panorama-web-viewer-embed/?image=https://i.ibb.co/1sb0d64/download.jpg"></iframe>
+  <!-- <iframe id="fullscreen-iframe" width="1200" height="700" title="someTitle" scrolling="no" src="http://renderstuff.com/tools/360-panorama-web-viewer-embed/?image=https://i.ibb.co/1sb0d64/download.jpg"></iframe> -->
+  
+  <script>
+    iframedoc = document.getElementById("fullscreen-iframe").contentDocument;
+    iframedoc.getElementById("a-sky-id").src = "https://upload.wikimedia.org/wikipedia/commons/9/9e/Ours_brun_parcanimalierpyrenees_1.jpg";
+    console.log(iframedoc.getElementById("a-sky-id").src);
+  </script>
+  <iframe id="fullscreen-iframe" width="1200" height="700" title="someTitle" scrolling="no" ar = "true" src="https://renderstuff.com/tools/360-panorama-web-viewer/panorama_360_vrs"></iframe>
 
   <script>
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
