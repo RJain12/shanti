@@ -1,9 +1,7 @@
-
-
 const Replicate = require("replicate");
 
 const replicate = new Replicate({
-  auth: "{INSERT TOKEN}",
+  auth: "r8_c9Zyab1TtF8l60uN04WymVaW79LiKgh3MXx0L",
 });
 
 const output = await replicate.run(
