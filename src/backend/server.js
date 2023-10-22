@@ -1,14 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+onst express = require('express');
 const { exec } = require('child_process');
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
+app.get('*', (req, res) => {
+  const prompt1 = req.query.prompt1;
+  const prompt2 = req.query.prompt2;
 
-app.post('/runMatlab', (req, res) => {
-  const { prompt1, prompt2 } = req.body;
 
   const matlabCommand = `matlab -r "gpt('${prompt1}', '${prompt2}')"`;
 
