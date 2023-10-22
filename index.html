@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 90vh;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes scale {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.1);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-in, scale 5s linear infinite;
+    }
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .fade-out {
+      animation: fadeOut 1s ease-in;
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .particle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 2px;
+      background-color: white;
+      border-radius: 50%;
+      animation: particleFall linear infinite;
+    }
+    @keyframes particleFall {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(to right, #FF6FD8, #3813C2);
+      color: white;
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+      text-decoration: none; /* Added */
+    }
+    .button:hover {
+      opacity: 0.6
+    }
+  </style>
+</head>
+<body>
+  <div id="root" class="center">
+    <img src="https://cdn.discordapp.com/attachments/460104181500608512/1165440459045347398/Slice_1.png" alt="Image" class="fade-in">
+    <div class="button-container">
+      <a href="viewer" class="button">Enter</a>
+    </div>
+  </div>
+  <div class="particles"></div>
+  <script src="bundle.js"></script>
+  <script>
+    // Generate particles dynamically
+    const particlesContainer = document.querySelector('.particles');
+    const numParticles = 100;
+    for (let i = 0; i < numParticles; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.width = `${Math.random() * 3}px`;
+      particle.style.height = particle.style.width;
+      particle.style.animationDuration = `${Math.random() * 5 + 2}s`;
+      particlesContainer.appendChild(particle);
+    }
+
+    const enterButton = document.querySelector('.button');
+    enterButton.addEventListener('click', fadeOutSite);
+
+    function fadeOutSite() {
+      const rootElement = document.getElementById('root');
+      rootElement.classList.add('fade-out');
+    }
+
+  </script>
+</body>
+</html>
