@@ -91,7 +91,7 @@
         let speechRecognition = new webkitSpeechRecognition();
 
         speechRecognition.continuous = true;
-        speechRecognition.interimResults = true;
+        // speechRecognition.interimResults = true;
         speechRecognition.lang = "en-US";
         
         console.log(speechRecognition.lang);
@@ -102,13 +102,11 @@
         };
     
         speechRecognition.onresult = function (event) {
-          console.log("enterred on result");
           const transcript = event.results[event.results.length - 1][0].transcript;
           console.log(transcript);
         };
     
         speechRecognition.onend = () => {
-            console.log("enterred on end");
           speechRecognition.start();
         };
     </script>
