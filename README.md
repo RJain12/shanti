@@ -24,7 +24,13 @@ Here're some of the project's best features:
 <p>1. Install Dependencies</p>
 
 ```
-npm -i
+npm i
+```
+
+<p>2. Run server </p>
+
+```
+npm run start
 ```
 
 <h2>🍰 Contribution Guidelines:</h2>
@@ -37,8 +43,9 @@ Please contact one of the HackHarvard Shanti team members on how to contribute t
 
 Technologies used in the project:
 
-*   GPT
-*   DALLE
+*   GPT-3.5 (OpenAI)
+*   DALLE (OpenAI)
+*   Whisper (OpenAI)
 *   Ai.one
 *   GCloud
 *   Matlab
@@ -48,6 +55,6 @@ Technologies used in the project:
 
 This project is licensed under the MIT License : )
 
-<h2>💖Like my work?</h2>
+<h2>💖Like our work?</h2>
 
-The Shanti Team: Lavik Rishab Davin and Johnny. Created at the HackHarvard2023 event.
+The Shanti Team: Lavik, Rishab, Davin, and Johnny. Created at the HackHarvard2023 event.
