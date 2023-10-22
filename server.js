@@ -1,14 +1,3 @@
-import * as Generation from "./generation/generation_pb";
-import { GenerationServiceClient } from "./generation/generation_pb_service";
-import { grpc as GRPCWeb } from "@improbable-eng/grpc-web";
-import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
-
-// Authenticate using your API key, don't commit your key to a public repository! lol
-const metadata = new GRPCWeb.Metadata();
-metadata.set("Authorization", "Bearer " + sk-Zk2qv1IBLQ9BOLPp30l6gEJjHhODj0iKKUuAUVJvH2XyxQlz);
-
-// Create a generation client to use with all future requests
-const client = new GenerationServiceClient("https://grpc.stability.ai", {});
 
 const express = require('express');
 const path = require('path');
