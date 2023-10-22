@@ -4,14 +4,12 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'client')));
-
 app.get('/viewer', (req, res) => {
-  res.sendFile(path.join(__dirname, 'viewer.html'));
+  res.sendFile(path.join(__dirname, 'src', 'viewer.html'));
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'src', 'index.html'));
 });
 
 app.listen(port, () => {
