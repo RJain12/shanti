@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'site', 'index.html'));
 });
 
+app.get('/src/site/stability.js', (req, res) => {
+    res.type('text/javascript');
+    res.sendFile(__dirname + '/stability.js');
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
