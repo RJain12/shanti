@@ -3,18 +3,16 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const AWS = require('aws-sdk');
+AWS.config.loadFromPath('./config.json')
 
+const Polly = new AWS.Polly({
+    region: 'us-east-1'
+})
 
-const Replicate = require("replicate");
+const Fs = require('fs');
 
-const replicate = new Replicate({
-  auth: 'r8_c9Zyab1TtF8l60uN04WymVaW79LiKgh3MXx0L',
-});
-
-app.get('/src/site/stability.js', (req, res) => {
-  res.type('application/javascript');
-  res.sendFile(path.join(__dirname, 'src', 'site', 'stability.js'));
-});
+app.use(express.static('src'));
 
 app.get('/viewer', (req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'site', 'viewer.html'));
@@ -26,6 +24,7 @@ app.get('/viewer2', (req, res) => {
 
 const axios = require('axios');
 
+const api_key = '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';
 
 app.get('/gpt', async (req, res) => {
   const prompt = req.query.prompt;
@@ -82,9 +81,34 @@ app.get('/replicate', async (req, res) => {
     prompt: prompt,
     size: "1024x1024",
   });
-  const image_url = response.data.data[0].url;
-
+  const image_url = response.data[0].url;
   res.send(image_url);
+});
+
+app.get('/tts', async (req, res) => {
+  const prompt = req.query.prompt;
+  const i = req.query.val;
+
+  const input = { // SynthesizeSpeechInput
+    Engine: "neural",
+    LanguageCode: "en-US",
+    OutputFormat: "mp3",
+    Text: prompt,
+    VoiceId: "Stephen", // required
+  };
+
+  Polly.synthesizeSpeech(input, (err,data) => {
+    if(err) {
+      console.log('Error', err);
+      return;
+    }
+
+    if (data.AudioStream) {
+      Fs.writeFile(`src/site/speech_${i}.mp3`, data.AudioStream, (err) => {
+        res.send('speech');
+      })
+    }
+  })
 });
 
 // app.get('/replicate', async (req, res) => {

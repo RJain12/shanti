@@ -61,7 +61,7 @@
 </head>
 <body>
     <a-scene embedded vr-mode-ui="enabled: true">
-        <a-sky id="sky" src="https://raw.githubusercontent.com/RJain12/shanti/main/src/assets/flowerField.jpeg"></a-sky>
+        <a-sky id="sky" crossOrigin="" src="https://raw.githubusercontent.com/RJain12/shanti/main/src/assets/lake.jpeg"></a-sky>
         <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
 
@@ -69,21 +69,47 @@
     </script>
 
     <script>
-        const trigger = async (text) => {
-            axios.get(`/gpt?prompt=You are a prompting script for image generation tools such as DALL-E, Stability AI, and Midjourney. You are an important part of a new innovation called Therapeutic VR. The patient is in a VR headset talking to an AI therapist. Based on what they are saying, you automatically generate happy, peaceful, realistic, mindful prompts for AI image generation tools so that they generate beautiful, therapeutic artwork. Here is an example of an excellent prompt: Equirectangular projection of THERAPEUTIC, RELAXING, CALMING beach, windy above with beautiful blue sky and clouds. Optimized for VR with equirectangular projection, ultra-wide angle lens, insanely detailed. \n\n The patient has just said the following transcript: "${text}". Return ONLY the string to feed into image generation tools in quotes. Do not respond to the patient.`).then(data=> {
+        let i = 0;
+        let good;
+
+        const trigger = async (text, i) => {
+            axios.get(`/gpt?prompt=You are a prompting script for image generation tools such as DALL-E, Stability AI, and Midjourney. You are an important part of a new innovation called Therapeutic VR. The patient is in a VR headset talking to an AI therapist. Based on what they are saying, you automatically generate happy, peaceful, realistic, mindful prompts for AI image generation tools so that they generate beautiful, therapeutic artwork. Here is an example of an excellent prompt: Equirectangular photograph of THERAPEUTIC, RELAXING, CALMING beach, windy above with beautiful blue sky and clouds. Optimized for VR with equirectangular projection, ultra-wide angle lens, insanely detailed. HD photo, national geographic.\n\n The patient has just said the following transcript: "${text}". Return ONLY the string to feed into image generation tools in quotes. Do not respond to the patient.`).then(data=> {
                 if(data !== 0) {
-                    console.log(data.data)
-                    console.log('HERE WE GO')
-                    axios.get(`/replicate?prompt=${data}`).then(data=> {
-                        changeImage(data.data)
+                    text = data.data;
+                    console.log('here',text)
+                    axios.get(`/replicate?prompt=${text}, HD photo, national geographic`).then(data=> {
+                        changeImage(data.data + "?not-from-cache")
                     })
                 }
+            })
 
+            axios.get(`/gpt?prompt=You are a professional therapist who is taking your patient along a therapeutic journey. You offer succinct, positive, calming advice to them. Your patient says the following transcript "${text}"" and you respond with the following succinct response`).then(data => {
+                if(data !== 0) {
+                    text = data.data;
+                    console.log(text)
+                    axios.get(`/tts?prompt=${text}&val=${i}`).then(data=> {
+                        setTimeout(function() {
+                        }, 1500);
+                        var audio = new Audio(`/site/speech_${i}.mp3`);
+                        speechRecognition.stop();
+                        audio.play();
+                        good = 0;
+                        if (!audio.duration) {
+                            setTimeout(function(){
+                                speechRecognition.start();
+                                good = 1;
+                            }, 15000)
+                        } else {
+                            setTimeout(function(){
+                                speechRecognition.start();
+                                good = 1;
+                            }, audio.duration * 1000)
+                        }
+                    })
+                }
             })
         }
-    </script>
 
-    <script>
         let speechRecognition = new webkitSpeechRecognition();
 
         speechRecognition.continuous = true;
@@ -98,12 +124,17 @@
           const transcript = event.results[event.results.length - 1][0].transcript;
           console.log(transcript);
           if (transcript.length > 45) {
-            trigger(transcript)
+            trigger(transcript, i)
+            i++;
           }
         };
+
+        good = 1;
     
         speechRecognition.onend = () => {
-          speechRecognition.start();
+            if (good) {
+                speechRecognition.start();
+            }
         };
     </script>
 
