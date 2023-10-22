@@ -68,7 +68,19 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js">
     </script>
 
+<script>
+    function changeImage(imageSrc) {
+        const skyElement = document.getElementById('sky');
+        skyElement.setAttribute('src', imageSrc);
+    }
+</script>
+
     <script>
+        const arr = [
+        "https://raw.githubusercontent.com/RJain12/shanti/main/src/assets/sculpture.webp",
+        "https://raw.githubusercontent.com/RJain12/shanti/main/src/assets/church.jpeg",
+        "https://raw.githubusercontent.com/RJain12/shanti/main/src/assets/lake.jpeg"
+        ];
         let i = 0;
         let good;
 
@@ -86,13 +98,13 @@
             axios.get(`/gpt?prompt=You are a professional therapist who is taking your patient along a therapeutic journey. You offer succinct, positive, calming advice to them. Your patient says the following transcript "${text}"" and you respond with the following succinct response`).then(data => {
                 if(data !== 0) {
                     text = data.data;
-                    console.log(text)
                     axios.get(`/tts?prompt=${text}&val=${i}`).then(data=> {
                         setTimeout(function() {
                         }, 1500);
                         var audio = new Audio(`/site/speech_${i}.mp3`);
                         speechRecognition.stop();
                         audio.play();
+                        changeImage(arr[i%3]);
                         good = 0;
                         if (!audio.duration) {
                             setTimeout(function(){
@@ -136,13 +148,6 @@
                 speechRecognition.start();
             }
         };
-    </script>
-
-    <script>
-        function changeImage(imageSrc) {
-            const skyElement = document.getElementById('sky');
-            skyElement.setAttribute('src', imageSrc);
-        }
     </script>
 </body>
 </html>
