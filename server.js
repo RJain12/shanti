@@ -5,15 +5,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/viewer', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src', 'viewer.html'));
+  res.sendFile(path.join(__dirname, 'src', 'site', 'viewer.html'));
 });
 
 app.get('/viewer2', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src', 'viewer2.html'));
+  res.sendFile(path.join(__dirname, 'src', 'site', 'viewer2.html'));
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src', 'index.html'));
+    res.sendFile(path.join(__dirname, 'src', 'site', 'index.html'));
 });
 
 app.listen(port, () => {
